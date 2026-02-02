@@ -3,24 +3,24 @@ import { LoginPage } from '../pages/LoginPage';
 import { InventoryPage } from '../pages/InventoryPage';
 import { CartPage } from '../pages/CartPage';
 import { CheckoutPage } from '../pages/CheckoutPage';
+import { AuthApi } from '../api/AuthApi';
 import { Env } from '../helpers/Env';
 import { SUCCESS_MESSAGES } from '../constants/Messages';
 
 test.describe('商品購入シナリオ', () => {
-  let loginPage: LoginPage;
   let inventoryPage: InventoryPage;
   let cartPage: CartPage;
   let checkoutPage: CheckoutPage;
+  let authApi: AuthApi;
 
   test.beforeEach(async ({ page }) => {
-    loginPage = new LoginPage(page);
     inventoryPage = new InventoryPage(page);
     cartPage = new CartPage(page);
     checkoutPage = new CheckoutPage(page);
+    authApi = new AuthApi(page);
     
-    // 準備: ログイン済みの状態で商品一覧ページから開始
-    await loginPage.load(loginPage.url);
-    await loginPage.login(Env.STANDARD_USER, Env.PASSWORD);
+    // 準備: APIクラスを使用してログイン済みの状態にする
+    await authApi.loginAsStandardUser();
   });
 
   test('シナリオ 2: 商品購入フロー', async ({ page }) => {
