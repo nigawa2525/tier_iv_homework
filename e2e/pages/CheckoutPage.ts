@@ -13,6 +13,7 @@ export class CheckoutPage extends BasePage {
   readonly continueButton = () => this.page.getByRole('button', { name: 'Continue' });
   readonly finishButton = () => this.page.getByRole('button', { name: 'Finish' });
   readonly completeHeader = () => this.page.locator('.complete-header');
+  readonly totalPriceLabel = () => this.page.locator('.summary_total_label');
 
   async fillInformation(firstName: string, lastName: string, postalCode: string) {
     await this.firstNameInput().fill(firstName);
@@ -25,5 +26,11 @@ export class CheckoutPage extends BasePage {
   async finishCheckout() {
     await this.finishButton().click();
     await this.waitForAjax();
+  }
+
+  async getTotalPrice(): Promise<number> {
+    const totalText = await this.totalPriceLabel().textContent();
+    // "Total: $32.39" のような形式から数値を抽出
+    return parseFloat(totalText?.replace(/[^0-9.]/g, '') || '0');
   }
 }
