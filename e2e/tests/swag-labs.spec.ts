@@ -23,7 +23,6 @@ test.describe('Swag Labs E2E Scenarios', () => {
 
   test('Scenario 1: Login', async ({ page }) => {
     await loginPage.login(Env.STANDARD_USER, Env.PASSWORD);
-    await inventoryPage.waitForAjax();
     await expect(page).toHaveURL(inventoryPage.url);
     await expect(inventoryPage.headerTitle()).toHaveText('Products');
   });
@@ -31,31 +30,26 @@ test.describe('Swag Labs E2E Scenarios', () => {
   test('Scenario 2: Purchase Product', async ({ page }) => {
     // Login
     await loginPage.login(Env.STANDARD_USER, Env.PASSWORD);
-    await inventoryPage.waitForAjax();
     
     // Add product to cart
     const productName = 'Sauce Labs Backpack';
     await inventoryPage.addProductToCart(productName);
     await inventoryPage.goToCart();
-    await cartPage.waitForAjax();
     
     // Cart page
     await expect(page).toHaveURL(cartPage.url);
     await expect(cartPage.headerTitle()).toHaveText('Your Cart');
     await cartPage.proceedToCheckout();
-    await checkoutPage.waitForAjax();
     
     // Checkout step one
     await expect(page).toHaveURL(checkoutPage.urlStepOne);
     await expect(checkoutPage.headerTitle()).toHaveText('Checkout: Your Information');
     await checkoutPage.fillInformation('John', 'Doe', '123-4567');
-    await checkoutPage.waitForAjax();
     
     // Checkout step two
     await expect(page).toHaveURL(checkoutPage.urlStepTwo);
     await expect(checkoutPage.headerTitle()).toHaveText('Checkout: Overview');
     await checkoutPage.finishCheckout();
-    await checkoutPage.waitForAjax();
     
     // Checkout complete
     await expect(page).toHaveURL(checkoutPage.urlComplete);
@@ -66,11 +60,9 @@ test.describe('Swag Labs E2E Scenarios', () => {
   test('Scenario 3: Logout', async ({ page }) => {
     // Login
     await loginPage.login(Env.STANDARD_USER, Env.PASSWORD);
-    await inventoryPage.waitForAjax();
     
     // Logout
     await inventoryPage.logout();
-    await loginPage.waitForAjax();
     
     // Verify redirection to login page
     await expect(page).toHaveURL(loginPage.url);

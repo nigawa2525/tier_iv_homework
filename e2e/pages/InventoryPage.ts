@@ -22,14 +22,18 @@ export class InventoryPage extends BasePage {
   async logout() {
     await this.menuButton().click();
     await this.logoutLink().click();
+    await this.waitForAjax();
   }
 
   async addProductToCart(productName: string) {
     await this.addToCartButton(productName).click();
+    // カート投入はAjax通信が発生するため待機
+    await this.waitForAjax();
   }
 
   async goToCart() {
     await this.cartLink().click();
+    await this.waitForAjax();
   }
 
   async sortProducts(option: 'az' | 'za' | 'lohi' | 'hilo') {

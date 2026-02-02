@@ -19,9 +19,11 @@ export class CheckoutPage extends BasePage {
     await this.lastNameInput().fill(lastName);
     await this.postalCodeInput().fill(postalCode);
     await this.continueButton().click();
+    await this.waitForAjax();
   }
 
   async finishCheckout() {
     await this.finishButton().click();
+    await this.waitForAjax();
   }
 }

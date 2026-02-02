@@ -14,7 +14,6 @@ test.describe('Inventory Sorting Scenarios', () => {
     // 準備: ログイン
     await loginPage.load(loginPage.url);
     await loginPage.login(Env.STANDARD_USER, Env.PASSWORD);
-    await inventoryPage.waitForAjax();
   });
 
   test('Sort products by name (A to Z and Z to A)', async () => {

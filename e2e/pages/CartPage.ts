@@ -9,5 +9,6 @@ export class CartPage extends BasePage {
 
   async proceedToCheckout() {
     await this.checkoutButton().click();
+    await this.waitForAjax();
   }
 }
