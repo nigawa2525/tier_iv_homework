@@ -10,9 +10,9 @@ export default {
   testDir: './e2e/tests',
   use: {
     baseURL: 'https://www.saucedemo.com',
-    screenshot: 'only-on-failure',
-    video: 'retain-on-failure',
-    trace: 'retain-on-failure',
+    screenshot: 'on',
+    video: 'on',
+    trace: 'on',
   },
   reporter: [['html'], ['list']],
 };
