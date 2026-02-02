@@ -1,18 +1,19 @@
 import { test, expect } from '@playwright/test';
+import { LoginPage } from '../pages/LoginPage';
 import { InventoryPage } from '../pages/InventoryPage';
-import { AuthApi } from '../api/AuthApi';
 import { Env } from '../helpers/Env';
 
 test.describe('商品並び替えシナリオ', () => {
+  let loginPage: LoginPage;
   let inventoryPage: InventoryPage;
-  let authApi: AuthApi;
 
   test.beforeEach(async ({ page }) => {
+    loginPage = new LoginPage(page);
     inventoryPage = new InventoryPage(page);
-    authApi = new AuthApi(page);
     
-    // 準備: APIクラスを使用してログイン済みの状態にする
-    await authApi.loginAsStandardUser();
+    // 準備: ログイン
+    await loginPage.load(loginPage.url);
+    await loginPage.login(Env.STANDARD_USER, Env.PASSWORD);
   });
 
   test('商品名での並び替え (昇順・降順)', async () => {
